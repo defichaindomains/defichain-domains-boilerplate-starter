@@ -3,11 +3,8 @@ import { useContractRead } from "wagmi";
 import {
   DEFICHAINDOMAINS_RESOLVER_ABI,
   DEFICHAINDOMAINS_RESOLVER_ADDRESS,
-  DEFICHAINDOMAINS_REGISTRY_ABI,
-  DEFICHAINDOMAINS_REGISTRY_ADDRESS,
 } from "../../const/contractAddresses";
 import * as namehash from "eth-ens-namehash";
-import { formatsByName } from "@defichaindomains/address-encoder";
 
 function DomainNameResolver({ address }) {
   const domainNameHash = namehash

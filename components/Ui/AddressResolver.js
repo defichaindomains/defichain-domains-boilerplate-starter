@@ -7,10 +7,16 @@ import {
   DEFICHAINDOMAINS_REGISTRY_ADDRESS,
 } from "../../const/contractAddresses";
 import * as namehash from "eth-ens-namehash";
-import { formatsByCoinType } from "@defichaindomains/address-encoder";
+import {
+  formatsByCoinType,
+  formatsByName,
+} from "@defichaindomains/address-encoder";
 
-function AddressResolver({ domainName, coindID }) {
+function AddressResolver({ domainName, coin }) {
   const domainNameHash = namehash.hash(domainName);
+  const coinType = formatsByName[coin].coinType;
+
+  console.log(coinType);
 
   const {
     data: resolvedAddress,
@@ -20,21 +26,23 @@ function AddressResolver({ domainName, coindID }) {
     abi: DEFICHAINDOMAINS_RESOLVER_ABI,
     address: DEFICHAINDOMAINS_RESOLVER_ADDRESS,
     functionName: "addr",
-    args: [domainNameHash],
+    args: [domainNameHash, coinType],
   });
 
-  if (isError) {
-    return;
+  if (isError || resolvedAddress == "0x") {
+    return `No Address Record set for ${coin}`;
   }
 
   if (isLoading) {
     return <div>Fetching the Address...</div>;
   }
 
+  console.log(resolvedAddress);
+
   if (resolvedAddress) {
     try {
       const buffer = Buffer.from(resolvedAddress.slice(2), "hex");
-      const coinTypeFormats = formatsByCoinType[60];
+      const coinTypeFormats = formatsByCoinType[coinType];
       if (!coinTypeFormats || !coinTypeFormats.encoder) {
         throw new Error("Coin type not supported");
       }
@@ -42,7 +50,7 @@ function AddressResolver({ domainName, coindID }) {
       return decodedAddress;
     } catch (error) {
       console.log(error);
-      return null;
+      return `No Address Record set for ${coin}`;
     }
   }
   return null;

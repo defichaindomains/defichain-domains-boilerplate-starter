@@ -20,7 +20,7 @@ const { chains, provider } = configureChains(
 );
 
 const { connectors } = getDefaultWallets({
-  appName: "DeFiChain Domains NFT Marketplace",
+  appName: "Defichain Domains Boilerplate Starter",
   chains,
 });
 
@@ -36,19 +36,12 @@ function MyApp({ Component, pageProps }) {
       <RainbowKitProvider chains={chains}>
         <ApolloProvider client={client}>
           <Head>
-            <title>DefiChain Domains NFT Marketplace</title>
+            <title>Defichain Domains Boilerplate Starter</title>
             <meta
               name="viewport"
               content="width=device-width, initial-scale=1.0"
             />
-            <meta
-              name="description"
-              content="Buy and sell DeFiChain Domains via the NFT Marketplace"
-            />
-            <meta
-              name="keywords"
-              content="DeFiChain Domains, Marketplace, NFT Marketplace, Decentralized Domains, Web3 Domains, NFT"
-            />
+
             <link
               href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap"
               rel="stylesheet"

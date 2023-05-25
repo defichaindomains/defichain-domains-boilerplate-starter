@@ -2,15 +2,18 @@ import React, { useRef, useState } from "react";
 import Select from "../components/Ui/Select";
 import AddressResolver from "../components/Ui/AddressResolver";
 import DomainNameResolver from "../components/Ui/DomainNameResolver";
+import { formatsByName } from "@defichaindomains/address-encoder";
 
 const Home = () => {
-  const [selectedCoinId, setSelectedCoinId] = useState(coinIdOptions[0].value);
+  const [selectedCoin, setSelectedCoin] = useState(coinIdOptions[0].value);
   const [domainName, setDomainName] = useState("");
   const [address, setAddress] = useState("");
   const handleCoinChange = (event) => {
-    const newCoinID = event.target.value;
-    setSelectedCoinId(newCoinID);
+    const newCoin = event.target.value;
+    setSelectedCoin(newCoin);
   };
+
+  const COIN_LIST = Object.keys(formatsByName);
 
   return (
     <div className="page-container">
@@ -34,16 +37,10 @@ const Home = () => {
                   onChange={(event) => setDomainName(event.target.value)}
                   value={domainName}
                 ></input>
-                {/* <Select
-                  handleChange={handleCoinChange}
-                  options={coinIdOptions}
-                /> */}
+                <Select handleChange={handleCoinChange} options={COIN_LIST} />
               </div>
               {domainName.endsWith(".dfi") && (
-                <AddressResolver
-                  domainName={domainName}
-                  coindID={selectedCoinId}
-                />
+                <AddressResolver domainName={domainName} coin={selectedCoin} />
               )}
             </div>
             {/* Reverse Resolver */}
@@ -72,7 +69,7 @@ const Home = () => {
 export default Home;
 
 const coinIdOptions = [
-  { value: 1130, label: "DFI METACHAIN" },
+  { value: 988, label: "DFI METACHAIN" },
   { value: 1129, label: "DFI NATIVE" },
   { value: 0, label: "BTC" },
   { value: 2, label: "LTC" },
